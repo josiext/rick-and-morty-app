@@ -1,6 +1,7 @@
+import { FormEvent, useCallback, useEffect, useState } from "react";
+
 import Character from "components/Character";
 import useCharacterList from "hooks/useCharacterList";
-import { FormEvent, useCallback, useEffect, useState } from "react";
 import styles from "./Characters.module.css";
 import Title from "components/Title";
 
