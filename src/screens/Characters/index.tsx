@@ -55,6 +55,9 @@ export default function Characters() {
             {characters.map((character) => (
               <Character key={character.id} data={character} />
             ))}
+
+            {isLoading && <p>Loading.</p>}
+            {error && <p>Unexpected error, please try again later.</p>}
           </div>
         </div>
       </main>
