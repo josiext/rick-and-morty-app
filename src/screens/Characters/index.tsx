@@ -12,6 +12,7 @@ export default function Characters() {
     isLoading,
     error,
     loadNextPage,
+    searchCharacters,
   } = useCharacterList();
 
   const handleScroll = useCallback(() => {
@@ -33,6 +34,7 @@ export default function Characters() {
 
   const handleSearchCharacter = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    searchCharacters({ name: search });
     setSearch("");
   };
 
