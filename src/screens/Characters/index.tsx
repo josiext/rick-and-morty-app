@@ -49,25 +49,22 @@ export default function Characters() {
   );
 
   const handleSearchCharacter = (e: FormEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    setSearch({ ...search, name: value });
-
-    const valueTrimed = value.trim();
-    if (valueTrimed)
-      searchCharactersDebounced({ ...search, name: valueTrimed });
+    const name = e.currentTarget.value;
+    setSearch({ ...search, name });
+    searchCharactersDebounced({ ...search, name });
   };
 
   const handleChangeStatus = (status: ICharacter["status"] | null) => () => {
     setSearch({ ...search, status: status });
-    searchCharactersDebounced({ ...search, status });
+    searchCharacters({ ...search, status });
   };
 
   return (
-    <div>
-      <header>
-        <Title />
-      </header>
-      <main>
+    <main>
+      <section className={styles.header}>
+        <header>
+          <Title />
+        </header>
         <input
           value={search.name}
           onChange={(e) => handleSearchCharacter(e)}
@@ -96,23 +93,23 @@ export default function Characters() {
             onClick={handleChangeStatus(null)}
           />
         </div>
+      </section>
 
-        <div className={styles.character_list_container}>
-          <div>
-            {characters.map((character) => (
-              <Character key={character.id} data={character} />
-            ))}
+      <div className={styles.character_list_container}>
+        <div>
+          {characters.map((character) => (
+            <Character key={character.id} data={character} />
+          ))}
 
-            {!isLoading && characters.length === 0 && (
-              <p>No characters to show...</p>
-            )}
+          {!isLoading && characters.length === 0 && (
+            <p>No characters to show...</p>
+          )}
 
-            {isLoading && <p>Loading.</p>}
-            {error && <p>Unexpected error, please try again later.</p>}
-          </div>
+          {isLoading && <p>Loading.</p>}
+          {error && <p>Unexpected error, please try again later.</p>}
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
 

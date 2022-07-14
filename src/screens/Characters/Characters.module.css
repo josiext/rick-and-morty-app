@@ -10,3 +10,11 @@
   grid-auto-rows: 22rem;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
 }
+
+.header {
+  height: 400px;
+  color: white;
+  background-color: #063970;
+  display: grid;
+  place-content: center;
+}
