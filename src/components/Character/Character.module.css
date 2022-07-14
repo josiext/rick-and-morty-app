@@ -1,3 +1,36 @@
 .container {
-  display: inline-block;
+  border-radius: 25px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.image {
+  object-fit: cover;
+  object-position: top;
+}
+
+.content {
+  padding: 0.8em 1.2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.species {
+  font-size: 1.2rem;
+}
+
+.status {
+  font-size: 1rem;
+  font-weight: 600;
+  font-style: italic;
 }

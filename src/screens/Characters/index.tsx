@@ -76,18 +76,20 @@ export default function Characters() {
       </section>
 
       <div className={styles.character_list_container}>
-        <div>
+        <div className={styles.character_list}>
           {characters.map((character) => (
             <Character key={character.id} data={character} />
           ))}
+
+          {isLoading && <p>Loading...</p>}
 
           {!isLoading && characters.length === 0 && (
             <p>No characters to show...</p>
           )}
 
-          {isLoading && <p>Loading...</p>}
-
-          {error && <p>Unexpected error, please try again later.</p>}
+          {!isLoading && error && (
+            <p>Unexpected error, please try again later.</p>
+          )}
         </div>
       </div>
     </main>
