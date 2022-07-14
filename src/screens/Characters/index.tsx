@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import debounce from "just-debounce-it";
 
 import Character from "components/Character";
@@ -6,6 +6,7 @@ import useCharacterList from "hooks/useCharacterList";
 import styles from "./Characters.module.css";
 import Title from "components/Title";
 import { Character as ICharacter } from "types/character";
+import CharacterSearch from "components/CharacterSearch";
 
 export default function Characters() {
   const [search, setSearch] = useState<{
@@ -48,13 +49,12 @@ export default function Characters() {
     []
   );
 
-  const handleSearchCharacter = (e: FormEvent<HTMLInputElement>) => {
-    const name = e.currentTarget.value;
+  const handleSearchCharacter = (name: ICharacter["name"]) => {
     setSearch({ ...search, name });
     searchCharactersDebounced({ ...search, name });
   };
 
-  const handleChangeStatus = (status: ICharacter["status"] | null) => () => {
+  const handleChangeStatus = (status: ICharacter["status"] | null) => {
     setSearch({ ...search, status: status });
     searchCharacters({ ...search, status });
   };
@@ -65,34 +65,12 @@ export default function Characters() {
         <header>
           <Title />
         </header>
-        <input
-          value={search.name}
-          onChange={(e) => handleSearchCharacter(e)}
-          placeholder="Search character..."
+        <CharacterSearch
+          nameValue={search.name}
+          statusValue={search.status}
+          onChangeName={(v) => handleSearchCharacter(v)}
+          onChangeStatus={(v) => handleChangeStatus(v)}
         />
-
-        <div>
-          <RadioButton
-            value="Alive"
-            checked={search.status === "alive"}
-            onClick={handleChangeStatus("alive")}
-          />
-          <RadioButton
-            value="Dead"
-            checked={search.status === "dead"}
-            onClick={handleChangeStatus("dead")}
-          />
-          <RadioButton
-            value="Unknown"
-            checked={search.status === "unknown"}
-            onClick={handleChangeStatus("unknown")}
-          />
-          <RadioButton
-            value="All"
-            checked={search.status === null}
-            onClick={handleChangeStatus(null)}
-          />
-        </div>
       </section>
 
       <div className={styles.character_list_container}>
@@ -105,29 +83,11 @@ export default function Characters() {
             <p>No characters to show...</p>
           )}
 
-          {isLoading && <p>Loading.</p>}
+          {isLoading && <p>Loading...</p>}
+
           {error && <p>Unexpected error, please try again later.</p>}
         </div>
       </div>
     </main>
   );
 }
-
-const RadioButton = ({
-  value,
-  checked,
-  onClick,
-}: {
-  value: string;
-  checked: boolean;
-  onClick: (value: string) => void;
-}) => {
-  return (
-    <>
-      <label>
-        {value}
-        <input type="radio" onChange={() => onClick(value)} checked={checked} />
-      </label>
-    </>
-  );
-};
