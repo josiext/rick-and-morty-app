@@ -2,19 +2,20 @@ import { Character } from "types/character";
 
 const END_POINT = "https://rickandmortyapi.com/api/character";
 
+interface getProps {
+  name?: Character["name"];
+  status?: Character["status"] | null;
+}
+
 const get = async (
   page: number,
-  {
-    name,
-    status,
-  }: {
-    name?: Character["name"];
-    status?: Character["status"] | null;
-  } = {}
+  opts: getProps = {}
 ): Promise<{
   data: Character[];
   info: { pages: number };
 }> => {
+  const { name, status } = opts;
+
   let query = `?page=${page}`;
   if (name) query += `&name=${name}`;
   if (status) query += `&status=${status}`;

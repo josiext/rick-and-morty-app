@@ -2,7 +2,11 @@ import { Character as ICharacter } from "types/character";
 
 import styles from "./Character.module.css";
 
-function Character({ data }: { data: ICharacter }) {
+export interface CharacterProps {
+  data: ICharacter;
+}
+
+function Character({ data }: CharacterProps) {
   return (
     <div className={styles.container}>
       <figure>

@@ -1,7 +1,13 @@
+@font-face {
+  font-family: "rick-&-morty";
+  src: local("rick-&-morty"), url(../fonts/get_schwifty.ttf) format("ttf");
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: "rick-&-morty";
 }
 
 body {
