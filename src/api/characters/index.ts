@@ -9,7 +9,7 @@ const get = async (
     status,
   }: {
     name?: Character["name"];
-    status?: Character["status"];
+    status?: Character["status"] | null;
   } = {}
 ): Promise<{
   data: Character[];
@@ -20,6 +20,17 @@ const get = async (
   if (status) query += `&status=${status}`;
 
   const response = await fetch(`${END_POINT}${query}`);
+
+  if (!response.ok && response.status === 404)
+    return {
+      data: [],
+      info: {
+        pages: 0,
+      },
+    };
+
+  if (!response.ok) throw new Error("Api error.");
+
   const data = await response.json();
 
   return {

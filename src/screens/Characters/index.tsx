@@ -1,12 +1,17 @@
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import debounce from "just-debounce-it";
 
 import Character from "components/Character";
 import useCharacterList from "hooks/useCharacterList";
 import styles from "./Characters.module.css";
 import Title from "components/Title";
+import { Character as ICharacter } from "types/character";
 
 export default function Characters() {
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<{
+    name: string;
+    status: ICharacter["status"] | null;
+  }>({ name: "", status: null });
   const {
     data: characters,
     isLoading,
@@ -19,8 +24,8 @@ export default function Characters() {
     const bottom =
       Math.ceil(window.innerHeight + window.scrollY) >=
       document.documentElement.scrollHeight;
-    if (bottom) loadNextPage();
-  }, [loadNextPage]);
+    if (bottom && !isLoading) loadNextPage();
+  }, [loadNextPage, isLoading]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, {
@@ -32,10 +37,29 @@ export default function Characters() {
     };
   }, [handleScroll]);
 
-  const handleSearchCharacter = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    searchCharacters({ name: search });
-    setSearch("");
+  const searchCharactersDebounced = useMemo(
+    () =>
+      debounce(
+        (opts: { name?: string; status?: ICharacter["status"] | null }) =>
+          searchCharacters(opts),
+        600
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  const handleSearchCharacter = (e: FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    setSearch({ ...search, name: value });
+
+    const valueTrimed = value.trim();
+    if (valueTrimed)
+      searchCharactersDebounced({ ...search, name: valueTrimed });
+  };
+
+  const handleChangeStatus = (status: ICharacter["status"] | null) => () => {
+    setSearch({ ...search, status: status });
+    searchCharactersDebounced({ ...search, status });
   };
 
   return (
@@ -44,20 +68,44 @@ export default function Characters() {
         <Title />
       </header>
       <main>
-        <form onSubmit={handleSearchCharacter}>
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.currentTarget.value)}
-            placeholder="Search character..."
+        <input
+          value={search.name}
+          onChange={(e) => handleSearchCharacter(e)}
+          placeholder="Search character..."
+        />
+
+        <div>
+          <RadioButton
+            value="Alive"
+            checked={search.status === "alive"}
+            onClick={handleChangeStatus("alive")}
           />
-          <button>Aceptar</button>
-        </form>
+          <RadioButton
+            value="Dead"
+            checked={search.status === "dead"}
+            onClick={handleChangeStatus("dead")}
+          />
+          <RadioButton
+            value="Unknown"
+            checked={search.status === "unknown"}
+            onClick={handleChangeStatus("unknown")}
+          />
+          <RadioButton
+            value="All"
+            checked={search.status === null}
+            onClick={handleChangeStatus(null)}
+          />
+        </div>
 
         <div className={styles.character_list_container}>
           <div>
             {characters.map((character) => (
               <Character key={character.id} data={character} />
             ))}
+
+            {!isLoading && characters.length === 0 && (
+              <p>No characters to show...</p>
+            )}
 
             {isLoading && <p>Loading.</p>}
             {error && <p>Unexpected error, please try again later.</p>}
@@ -67,3 +115,22 @@ export default function Characters() {
     </div>
   );
 }
+
+const RadioButton = ({
+  value,
+  checked,
+  onClick,
+}: {
+  value: string;
+  checked: boolean;
+  onClick: (value: string) => void;
+}) => {
+  return (
+    <>
+      <label>
+        {value}
+        <input type="radio" onChange={() => onClick(value)} checked={checked} />
+      </label>
+    </>
+  );
+};
