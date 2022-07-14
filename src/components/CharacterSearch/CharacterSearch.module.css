@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.input_name {
+  padding: 0.8em 1.2em;
+  border-radius: 25px;
+  font-weight: 2rem;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.status_opts_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 0.9em;
+}

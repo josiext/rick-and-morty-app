@@ -3,10 +3,11 @@ import debounce from "just-debounce-it";
 
 import Character from "components/Character";
 import useCharacterList from "hooks/useCharacterList";
-import styles from "./Characters.module.css";
 import Title from "components/Title";
 import { Character as ICharacter } from "types/character";
 import CharacterSearch from "components/CharacterSearch";
+
+import styles from "./Characters.module.css";
 
 export default function Characters() {
   const [search, setSearch] = useState<{
@@ -66,6 +67,7 @@ export default function Characters() {
           <Title />
         </header>
         <CharacterSearch
+          className={styles.search}
           nameValue={search.name}
           statusValue={search.status}
           onChangeName={(v) => handleSearchCharacter(v)}

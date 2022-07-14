@@ -1,6 +1,9 @@
+import RadioButton from "components/RadioButton";
 import { Character } from "types/character";
+import styles from "./CharacterSearch.module.css";
 
-export interface CharacterSearchProps {
+export interface CharacterSearchProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   nameValue: Character["name"];
   statusValue: Character["status"] | null;
   onChangeName: (name: Character["name"]) => void;
@@ -12,15 +15,18 @@ export default function CharacterSearch({
   statusValue,
   onChangeName,
   onChangeStatus,
+  className,
+  ...rest
 }: CharacterSearchProps) {
   return (
-    <>
+    <div className={`${styles.container} ${className}`} {...rest}>
       <input
+        className={styles.input_name}
         value={nameValue}
         onChange={(e) => onChangeName(e.currentTarget.value)}
-        placeholder="Search character..."
+        placeholder="Search a character..."
       />
-      <div>
+      <div className={styles.status_opts_container}>
         <RadioButton
           value="Alive"
           checked={statusValue === "alive"}
@@ -42,25 +48,6 @@ export default function CharacterSearch({
           onClick={() => onChangeStatus(null)}
         />
       </div>
-    </>
+    </div>
   );
 }
-
-const RadioButton = ({
-  value,
-  checked,
-  onClick,
-}: {
-  value: string;
-  checked: boolean;
-  onClick: (value: string) => void;
-}) => {
-  return (
-    <>
-      <label>
-        {value}
-        <input type="radio" onChange={() => onClick(value)} checked={checked} />
-      </label>
-    </>
-  );
-};
