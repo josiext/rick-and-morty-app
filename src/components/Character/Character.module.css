@@ -18,19 +18,21 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  color: #2e2e2e;
 }
 
 .name {
-  font-weight: 600;
   font-size: 1.4rem;
 }
 
 .species {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  margin-top: 0.5em;
 }
 
 .status {
   font-size: 1rem;
   font-weight: 600;
+  margin-top: 0.5em;
   font-style: italic;
 }

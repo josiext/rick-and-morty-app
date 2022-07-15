@@ -1,5 +1,7 @@
 # Rick & Morty Characters
 
+![App](images/presentation.png)
+
 **Technologies:**
 
 - React
