@@ -1,6 +1,6 @@
 .title {
-  font-size: 5rem;
-  line-height: 4rem;
+  font-size: 3rem;
+  line-height: 3rem;
   font-weight: 500;
 }
 
@@ -8,4 +8,12 @@
   font-weight: 400;
   font-size: 0.5em;
   text-align: center;
+}
+
+@media (min-width: 600px) {
+  .title {
+    font-size: 5rem;
+    line-height: 4rem;
+    font-weight: 500;
+  }
 }

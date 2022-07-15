@@ -5,12 +5,12 @@
 }
 
 .input_name {
-  padding: 0.8em 1.2em;
+  font-size: 0.7rem;
   border-radius: 25px;
   font-weight: 2rem;
   border: none;
   outline: none;
-  font-size: 0.95rem;
+  padding: 0.8em 1.2em;
 }
 
 .status_opts_container {
@@ -18,5 +18,15 @@
   flex-direction: row;
   justify-content: center;
   gap: 1rem;
-  font-size: 0.9em;
+  font-size: 0.8rem;
+}
+
+@media (min-width: 600px) {
+  .input_name {
+    font-size: 0.95rem;
+  }
+
+  .status_opts_container {
+    font-size: 0.95rem;
+  }
 }
