@@ -8,6 +8,7 @@
 - Typescript
 - Debounce
 - Responsive Design
+- Github Actions (CI)
 
 ## Start
 
